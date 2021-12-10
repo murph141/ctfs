@@ -1,0 +1,54 @@
+Helpful GDB script (https://ternet.fr/gdb_real_mode.html)
+- Use in combination with Ghidra in real mode
+- https://stackoverflow.com/questions/32955887/how-to-disassemble-16-bit-x86-boot-sector-code-in-gdb-with-x-i-pc-it-gets-tr
+- Interesting blog post: https://jarijaas.github.io/posts/disobey-2020/
+
+Seems to be related to CRC:
+- https://gist.github.com/iamgreaser/7509189
+- https://lxp32.github.io/docs/a-simple-example-crc32-calculation/
+
+Stage 0:
+- CRC length is 114879 (0x1c0bf)
+
+Accessing hard drive:
+- https://web.archive.org/web/20210417135642/http://wiki.osdev.org/ATA_PIO_Mode
+- https://stackoverflow.com/questions/8461363/access-harddrive-using-assembly
+
+Video memory:
+- https://stackoverflow.com/questions/33681795/how-to-write-to-screen-with-video-memory-address-0xb8000-from-real-mode
+- https://en.wikipedia.org/wiki/VGA_text_mode
+- https://en.wikipedia.org/wiki/BIOS_color_attributes
+
+Shutdown:
+- https://web.archive.org/web/20210417040214/https://wiki.osdev.org/Shutdown#Emulator-specific_methods
+
+PNGs:
+- IDAT: http://www.libpng.org/pub/png/spec/1.2/PNG-Chunks.html
+
+CRC checking:
+- Checks over code *and* CRC values starting from image data (IDAT) all the way through the final "CRC_Stuff_One" CRC in the file
+
+File CRC:
+- dd if=<png> of=temp skip=817 bs=1 count=114879 && crc32 temp
+
+RC4:
+- https://en.wikipedia.org/wiki/RC4#Description
+
+QEMU automation:
+- https://gist.github.com/mvidner/8939289
+- https://fadeevab.com/how-to-setup-qemu-output-to-console-and-automate-using-shell-script
+
+Seven digit primes:
+- https://primes.utm.edu/lists/small/millions/
+
+rockyou:
+- Found a wordlist on Github
+
+gdb memory dump:
+- https://sourceware.org/gdb/onlinedocs/gdb/Dump_002fRestore-Files.html
+
+unicorn usage:
+- https://blog.attify.com/flare-on-5-writeup-part9/
+
+Flag:
+- AOTW{u_4r3_th3_xm45_qu1zm4st3r}
