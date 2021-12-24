@@ -1,0 +1,65 @@
+- 0x40 (debug-related)
+- 01 02 10 (load 0x20 into f)
+  - 0x01: load?
+  - 0x02: value
+  - 0x10: register select (based on bit, 0x01 --> 0x10)
+
+- 00 00 00 (nop?)
+
+- 02 01 10
+  - 02: add
+  - r1
+  - r2 (dst)
+
+Registers:
+- 01 (a)
+- 02 (b)
+- 04 (c)
+- 08 (d)
+- 10 (f)
+
+- Halts execution:
+  - printf "\x01\x02\x10\x01\x03\x01\x20\x01\x10\x40" | $(cat command)
+
+Opcodes:
+- 01 (mov)
+  - 01 val r2: r2 = val
+- 02 (add)
+  - 02 r1, r2: r2 = r2 + r1
+- 04 (store)
+  - 04 r1, r2: [r2] = r1
+- 08 (load)
+  - 08 <unused?>, r2: r2 = [r2]
+- 10 (cmp)
+  - r1, r2: cmp r1, r2
+  - Affects the f register (flags?)
+- 20 (jump)
+  - r1, r2: jump r2 if flags != 0
+- 40 (debug)
+- 80 (syscall)
+  - 80 r1, r2: r1 = syscall r2
+- ff (exception)
+
+Syscalls:
+- 01 (open)
+  - a: path
+- 02 (read)
+  - a: fd
+- 04 (write)
+  - a: fd (1, current connection)
+  - b: buffer
+  - c: length
+- 08 (sendfile)
+  - a: fd
+- 10 (close)
+  - a: fd
+
+--> Syscalls follow similarly to: https://chromium.googlesource.com/chromiumos/docs/+/master/constants/syscalls.md#x86_64-64_bit
+
+Flags:
+  Index:
+  0:
+  1:
+  2: ZF
+
+Flag: AOTW{bl4ckb0x3s_4r3_jus7_uN0p3neD_pr3ss13s}
