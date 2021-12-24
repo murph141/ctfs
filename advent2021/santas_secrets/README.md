@@ -22,8 +22,8 @@ In addition, we're given the following information about the level:
 
 Running the command, we get the following:
 
-```bash
-# nc santassecrets.advent2021.overthewire.org 1209
+```console
+$ nc santassecrets.advent2021.overthewire.org 1209
 help
 
 Welcome to Santa's Super-Secure Secret Storage Service

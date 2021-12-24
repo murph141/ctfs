@@ -19,6 +19,15 @@ We can easily un-tar it and see that it contains a bunch of pictures of jigsaw p
 
 There are quite a few pieces (a total of 667) and many have difference shapes and symbols on them that appear to spell out something (perhaps the flag).
 
+In addition, we're provided with the following message:
+
+```
+Santa has hidden a secret message on the backside of a jigsaw puzzle that he
+completed. Sadly, one of his elves dropped the completed puzzle, shuffling all
+the pieces. Can you verify that it is indeed impossible for the Grinch to
+recover this message?
+```
+
 ## Exif data
 
 There's a chance that solving the puzzle is possible by arranging the pieces into a final shape.
@@ -27,8 +36,8 @@ I also don't have an OpenCV (or similar) programming experience, so let's hope t
 
 Since these are images, let's check out if they have an Exif data.
 
-```bash
-# exiftool jigsaw_pieces/00168226de721bf30d62a60a2a34b4074a8c5d70d5ccd7cbfcc35b2a0a071e75.png
+```console
+$ exiftool jigsaw_pieces/00168226de721bf30d62a60a2a34b4074a8c5d70d5ccd7cbfcc35b2a0a071e75.png
 ExifTool Version Number         : 12.30
 File Name                       : 00168226de721bf30d62a60a2a34b4074a8c5d70d5ccd7cbfcc35b2a0a071e75.png
 Directory                       : jigsaw_pieces
@@ -66,8 +75,8 @@ Bingo. We notice some "Secret data" right away.
 
 Looking at our other images, we can see that these values are different, but _do_ repeat relatively frequently.
 
-```bash
-# exiftool jigsaw_pieces/*.png | grep 'Secret data:' | cut -d':' -f3 | sort | uniq -c | sort -rn | head
+```console
+$ exiftool jigsaw_pieces/*.png | grep 'Secret data:' | cut -d':' -f3 | sort | uniq -c | sort -rn | head
   50  'gI'
   50  'Ag'
   46  'CA'
@@ -91,8 +100,8 @@ Eventually though, we try ordering by "File Modification Date/Time" (which can a
 
 We run this through base64 decoding and find ourselves in luck.
 
-```bash
-# ls -rt jigsaw_pieces/* | xargs exiftool -s -s -s - | grep 'Secret data' | sed "s_.*: '\(.*\)'_\1_g" | tr -d '\n' | base64 -D
+```console
+$ ls -rt jigsaw_pieces/* | xargs exiftool -s -s -s - | grep 'Secret data' | sed "s_.*: '\(.*\)'_\1_g" | tr -d '\n' | base64 -D
  .       .        _+_        .                  .             .
                   /|\
        .           *     .       .            .                   .
